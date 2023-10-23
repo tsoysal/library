@@ -1,66 +1,67 @@
-const shelf = document.querySelector('.shelf');
-const nameInput = document.getElementById('name');
-const authorInput = document.getElementById('author');
-const pagesInput = document.getElementById('pages');
-const readInput = document.getElementById('readed');
-const submitBtn = document.getElementById('addBtn');
+// form dialog
+const dialog = document.querySelector('dialog');
 
+// form
+const form = document.querySelector('form')
+
+// Submit button
+const submitBtn = document.querySelector('#submit');
+
+// form inputs
+const inputs = document.querySelectorAll('.input');
+
+// Books container
+const booksContainer = document.querySelector('.books-container');
+
+// My Library array
 const myLibrary = [];
 
-function Book(name, author, page, hasRead) {
+// Event listeners
+form.addEventListener('submit', handleSubmit);
+
+function handleSubmit(e){
+    e.preventDefault();
+    addBookToLibrary();
+    dialog.close();
+}
+
+function Book(name, author, page, isRead) {
     this.name = name;
     this.author = author;
-    this.page = page;
-    this.hasRead = (hasRead ? "Readed" : "Not read yet");
+    this.pages = page;
+    this.isRead = isRead;
 }
 
-submitBtn.addEventListener('click', () => {
-    addBookToLibrary(nameInput.value, authorInput.value, pagesInput.value, readInput.checked);
-});
-
-function addBookToLibrary(name, author, page, hasRead) {
-    const newBook = new Book(name, author, page, hasRead);
+function addBookToLibrary() {
+    // Create new book object with the input values
+    let newBook = new Book(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].checked);
+    // Add new book object to myLibrary array
     myLibrary.push(newBook);
-    createElements(newBook);
-    addEvents();
+    displayBooks(newBook);
 }
 
-function removeBookFromLibrary(node) {
-    const index = myLibrary.findIndex(book => {
-        return book.name === node.firstChild.textContent;
+function displayBooks() {
+    let bookCards = '';
+
+    myLibrary.forEach((book, index) => {
+        bookCards += `<div class="book"}>
+                <h3>${book.name}</h3>
+                <p>${book.author}</p>
+                <p>${book.pages}</p>
+                <button onclick="handleRead(${index})">${(book.isRead ? "Readed!": "Not Readed!")}</button>
+                <button onclick="handleDelete(${index})">delete</button>
+            </div>`;
     });
+
+    booksContainer.innerHTML = bookCards;
+}
+
+function handleDelete(index) {
     myLibrary.splice(index, 1);
-    shelf.removeChild(node);
+    displayBooks();
 }
 
-function createElements(book) {
-    const newBook = document.createElement('div');
-    newBook.classList.add("book");
-    newBook.innerHTML = `<h3 class="book-name">${book.name}</h3>
-                             <p class="book-author">${book.author}</p>
-                             <p class="book-pages">${book.page}</p>
-                             <button class="read">${book.hasRead}</button>
-                             <button class="deleteBtn">Delete</button>`;
-    shelf.appendChild(newBook);
+function handleRead(index) {
+   myLibrary[index].isRead = !(myLibrary[index].isRead);
+   displayBooks();
 }
-
-function addEvents() {
-    // Delete items
-    let deleteBtn = document.querySelectorAll('.deleteBtn');
-    let length = deleteBtn.length;
-    deleteBtn[length - 1].addEventListener('click', (e) => {
-        removeBookFromLibrary(e.target.parentNode);
-    });
-
-    // Change Read status
-    let hasReadbtn = document.querySelectorAll('.read');
-    let length2 = hasReadbtn.length;
-    hasReadbtn[length2 - 1].addEventListener('click', (e) => {
-        if (e.target.textContent == "Readed") {
-            e.target.textContent = "Not read yet";
-        } else {
-            e.target.textContent = "Readed";
-        }
-    })
-}
-

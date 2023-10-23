@@ -14,20 +14,24 @@
     </nav>
     <main>
         <div class="input-container">
-            <form>
-                <label for="name">Book Name</label>
-                <input type="text" id="name" required>
-                <label for="author">author</label>
-                <input type="text" id="author" required>
-                <label for="pages">pages</label>
-                <input type="number" id="pages" required>
-                <label for="readed">Have you read?</label>
-                <input type="checkbox" id="readed">
-                <button type="button" id="addBtn">Add new book</button>
-            </form>
+                <button onclick="dialog.showModal();" type="button" id="addBtn">Add new book</button>
+                <dialog>
+                    <form>
+                        <label for="name">Book Name</label>
+                        <input type="text" class="input" required>
+                        <label for="author">author</label>
+                        <input type="text" class="input" required>
+                        <label for="pages">pages</label>
+                        <input type="number" class="input" required>
+                        <label for="readed">Have you read?</label>
+                        <input type="checkbox" class="input">
+                        <button id="submit" type="submit" autofocus>add</button>
+                    </form>
+                </dialog>
         </div>
         <div class="shelf">
             <h2>Books : </h2>
+            <div class="books-container"></div>
         </div>
     </main>
     <script src="./script.js"></script>
