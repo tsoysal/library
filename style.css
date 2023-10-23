@@ -1,3 +1,8 @@
+body {
+    background-color: darkgray;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .book {
     display: inline-block;
     padding: 20px 50px;
@@ -5,6 +10,7 @@
     border-radius: 5px;
     text-align: center;
     margin: 10px 20px;
+    background-color: antiquewhite;
 }
 
 input {display: block;}
@@ -12,4 +18,21 @@ input {display: block;}
 button {
     display: inline-block;
     margin: 10px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.nav-center h2 {
+    text-align: center;
+    font-size: 36px;
+    text-transform: uppercase;
+}
+
+#addBtn {
+    display: block;
+    margin-inline: auto;
+    padding: 10px 14px;
+    border-radius: 5px;
+    font-size: 22px;
+    font-weight: bold;
 }
